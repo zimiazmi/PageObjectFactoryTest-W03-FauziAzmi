@@ -10,9 +10,29 @@ Created on 27/04/2025 07:12
 Version 1.0
 */
 
+import com.juaracoding.PageObjectFactory.strategies.DriverStrategies;
 import org.openqa.selenium.WebDriver;
 
 
 public class DriverSingleton {
+    public static WebDriver driver;
 
+    public static WebDriver getDriver() {
+        if(driver == null) {
+            throw new IllegalStateException("Driver not initialized. Call setDriver() first.");
+        }
+        return driver;
+    }
+
+    public static void setDriver(String browser) {
+        if (driver == null) {
+            driver = DriverStrategies.setStrategy(browser);
+        }
+    }
+    public static void exit() {
+        if (driver != null) {
+            driver.quit();
+            driver = null;
+        }
+    }
 }
