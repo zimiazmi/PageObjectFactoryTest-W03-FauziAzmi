@@ -15,6 +15,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public class ChromeManager {
@@ -22,13 +24,31 @@ public class ChromeManager {
         ChromeOptions options = new ChromeOptions();
         options.addArguments("--start-maximized");
 
-        String tempProilePath = System.getProperty("user.dir") + "/tempChromeProfile";
-        File tempProfile = new File(tempProilePath);
-        if (!tempProfile.exists()) {
-            tempProfile.mkdir();
+        //path to chrome driver profile
+        String chromeDriverPath = System.getProperty("user.dir") +"/tempChromeProfile";
+        File chromeDriverDir = new File(chromeDriverPath);
+        if (!chromeDriverDir.exists()) {
+            chromeDriverDir.mkdirs();
         }
-        options.addArguments("excludeSwitches",new String[]{"enable-automation"});
+        options.addArguments("user-data-dir=" + chromeDriverPath);
 
-        return new ChromeDriver();
+        //pretend to be a real user
+        options.setExperimentalOption("excludeSwitches", new String[]{"enable-automation"});
+        options.setExperimentalOption("useAutomationExtension", false);
+
+        //turn off password saving
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("credential_enable_service", false);
+        prefs.put("profile.password_manager_enabled", false);
+        options.setExperimentalOption("prefs", prefs);
+
+        //disable infobars and notifications
+        options.addArguments("disable-infobars");
+        options.addArguments("--disable-notifications");
+
+        //disable automation controlled
+        options.addArguments("--disable-blink-features=AutomationControlled");
+
+        return new ChromeDriver(options);
     }
 }

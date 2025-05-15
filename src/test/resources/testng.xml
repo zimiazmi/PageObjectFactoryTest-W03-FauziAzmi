@@ -6,7 +6,8 @@
     <parameter name="password" value="secret_sauce"/>
     <test name="Test">
         <classes>
-<!--            <class name="com.juaracoding.PageObjectFactory.testcase.TestLogin"/>-->
+           <class name="com.juaracoding.PageObjectFactory.hook.Hook"/>
+           <class name="com.juaracoding.PageObjectFactory.pages.LoginPageTest"></class>
         </classes>
     </test>
 </suite>
