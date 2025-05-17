@@ -2,6 +2,7 @@ package com.juaracoding.PageObjectFactory.pages;
 
 import com.juaracoding.PageObjectFactory.utils.DriverSingleton;
 import org.openqa.selenium.WebDriver;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -33,6 +34,20 @@ public class InventoryPageTest {
     @Test(priority = 2)
     public void addToCartTest(){
         inventoryPage.addToCart(inventoryPage.addToCartBackpack);
+    }
+    @Test(priority = 3)
+    public void verifiyCartTest(){
+        String actual = inventoryPage.getCartBadge();
+        String expected = "1";
+        Assert.assertEquals(actual,expected);
+    }
+    @Test(priority = 4)
+    public void navigateToCartTest(){
+        inventoryPage.goToCartPage();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        String actual = cartPage.getCartHeader();
+        String expected = "Your Cart";
+        Assert.assertEquals(actual,expected);
     }
 
 

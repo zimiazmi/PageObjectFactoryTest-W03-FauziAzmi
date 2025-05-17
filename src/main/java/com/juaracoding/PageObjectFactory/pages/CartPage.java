@@ -5,6 +5,8 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import java.util.List;
+
 /*
 IntelliJ IDEA 2024.3.3 (Community Edition)
 Build #IC-243.24978.46, built on February 11, 2025
@@ -22,9 +24,19 @@ public class CartPage {
     @FindBy(xpath = "//button[@id='checkout']")
     WebElement checkoutButton;
 
-
+    @FindBy (xpath = "//*[@class='inventory_item_name']")
+    private List<WebElement> cartItems;
 
     public CartPage(WebDriver driver){
         PageFactory.initElements(driver, this);
+    }
+    public String getCartHeader(){
+        return cartHeader.getText();
+    }
+    public void checkout(){
+        checkoutButton.click();
+    }
+    public int countCartItems(){
+        return cartItems.size();
     }
 }
